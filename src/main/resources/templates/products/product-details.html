@@ -67,7 +67,9 @@
 
         <div class="form-actions">
             <a th:href="@{/dashboard}" class="btn btn-secondary">Back to Dashboard</a>
+
             <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary">Edit Product</a>
+
             <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" class="inline-delete-form">
                 <button type="submit" class="btn btn-danger js-confirm-delete">Delete</button>
             </form>

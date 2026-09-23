@@ -3,86 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${isEdit} ? 'Edit Product - WarrantyBox' : 'Add Product - WarrantyBox'">Add Product</title>
+
+    <title th:text="${isEdit} ? 'Edit Product - WarrantyBox' : 'Add Product - WarrantyBox'">
+        Add Product
+    </title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
+
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <main class="page page-narrow">
+
     <div class="page-header">
         <div>
-            <h1 th:text="${isEdit} ? 'Edit Product' : 'Add a New Product'">Add a New Product</h1>
-            <p class="page-subtitle">Fill in the details below. Warranty end date is calculated automatically.</p>
+            <h1 th:text="${isEdit} ? 'Edit Product' : 'Add a New Product'">
+                Add a New Product
+            </h1>
+
+            <p class="page-subtitle">
+                Fill in the details below. Warranty end date is calculated automatically.
+            </p>
         </div>
     </div>
 
-    <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+    <!-- Error Message -->
+    <div class="alert alert-error"
+         th:if="${errorMessage}"
+         th:text="${errorMessage}">
+    </div>
 
+    <!-- Product Form -->
     <form class="card form-card"
           th:action="${isEdit} ? @{/products/edit/{id}(id=${product.id})} : @{/products/add}"
-          method="post" enctype="multipart/form-data">
+          method="post"
+          enctype="multipart/form-data">
 
         <div class="form-grid">
+
+            <!-- Product Name -->
             <div class="form-field">
                 <label for="name">Product Name</label>
-                <input type="text" id="name" name="name" th:value="${product.name}" placeholder="HP EliteBook 840 G6" required>
+
+                <input type="text"
+                       id="name"
+                       name="name"
+                       th:value="${product.name}"
+                       placeholder="HP EliteBook 840 G6"
+                       required>
             </div>
 
+            <!-- Brand -->
             <div class="form-field">
                 <label for="brand">Brand</label>
-                <input type="text" id="brand" name="brand" th:value="${product.brand}" placeholder="HP" required>
+
+                <input type="text"
+                       id="brand"
+                       name="brand"
+                       th:value="${product.brand}"
+                       placeholder="HP"
+                       required>
             </div>
 
+            <!-- Category -->
             <div class="form-field">
                 <label for="category">Category</label>
-                <input type="text" id="category" name="category" th:value="${product.category}" placeholder="Laptop" required>
+
+                <input type="text"
+                       id="category"
+                       name="category"
+                       th:value="${product.category}"
+                       placeholder="Laptop"
+                       required>
             </div>
 
+            <!-- Price -->
             <div class="form-field">
                 <label for="price">Price</label>
-                <input type="number" id="price" name="price" th:value="${product.price}" step="0.01" min="0" placeholder="65000" required>
+
+                <input type="number"
+                       id="price"
+                       name="price"
+                       th:value="${product.price}"
+                       step="0.01"
+                       min="0"
+                       placeholder="65000"
+                       required>
             </div>
 
+            <!-- Purchase Date -->
             <div class="form-field">
                 <label for="purchaseDate">Purchase Date</label>
-                <input type="date" id="purchaseDate" name="purchaseDate" th:value="${product.purchaseDate}" required>
+
+                <input type="date"
+                       id="purchaseDate"
+                       name="purchaseDate"
+                       th:value="${product.purchaseDate}"
+                       required>
             </div>
 
+            <!-- Warranty Period -->
             <div class="form-field">
-                <label for="warrantyPeriod">Warranty Period (Years)</label>
-                <input type="number" id="warrantyPeriod" name="warrantyPeriod" th:value="${product.warrantyPeriod}" min="0" max="50" placeholder="2" required>
+                <label for="warrantyPeriod">
+                    Warranty Period (Years)
+                </label>
+
+                <input type="number"
+                       id="warrantyPeriod"
+                       name="warrantyPeriod"
+                       th:value="${product.warrantyPeriod}"
+                       min="0"
+                       max="50"
+                       placeholder="2"
+                       required>
             </div>
 
+            <!-- Serial Number -->
             <div class="form-field">
                 <label for="serialNumber">Serial Number</label>
-                <input type="text" id="serialNumber" name="serialNumber" th:value="${product.serialNumber}" placeholder="ABC123456">
+
+                <input type="text"
+                       id="serialNumber"
+                       name="serialNumber"
+                       th:value="${product.serialNumber}"
+                       placeholder="ABC123456">
             </div>
 
+            <!-- Store Name -->
             <div class="form-field">
                 <label for="storeName">Store Name</label>
-                <input type="text" id="storeName" name="storeName" th:value="${product.storeName}" placeholder="Star Tech">
+
+                <input type="text"
+                       id="storeName"
+                       name="storeName"
+                       th:value="${product.storeName}"
+                       placeholder="Star Tech">
             </div>
 
+            <!-- Invoice -->
             <div class="form-field form-field-full">
-                <label for="invoiceFile">Invoice (PDF, JPG, JPEG, PNG - max 5MB)</label>
-                <input type="file" id="invoiceFile" name="invoiceFile" accept=".pdf,.jpg,.jpeg,.png">
-                <p class="field-hint" th:if="${isEdit and product.invoiceFileName}">
-                    Current file: <span th:text="${product.invoiceFileName}">invoice.pdf</span>. Upload a new file to replace it.
+
+                <label for="invoiceFile">
+                    Invoice (PDF, JPG, JPEG, PNG - max 5MB)
+                </label>
+
+                <input type="file"
+                       id="invoiceFile"
+                       name="invoiceFile"
+                       accept=".pdf,.jpg,.jpeg,.png">
+
+                <!-- Existing Invoice During Edit -->
+                <div th:if="${isEdit}">
+
+                    <p class="field-hint"
+                       th:if="${product.invoiceFileName != null}"
+                       th:text="'Current file: ' + ${product.invoiceFileName} + '. Upload a new file to replace it.'">
+                        Current file: invoice.pdf
+                    </p>
+
+                    <p class="field-hint"
+                       th:if="${product.invoiceFileName == null}">
+                        Optional - you can add this later.
+                    </p>
+
+                </div>
+
+                <!-- Add Product -->
+                <p class="field-hint"
+                   th:if="${!isEdit}">
+                    Optional - you can add this later.
                 </p>
-                <p class="field-hint" th:unless="${isEdit and product.invoiceFileName}">Optional - you can add this later.</p>
+
             </div>
+
         </div>
 
+        <!-- Form Actions -->
         <div class="form-actions">
-            <a th:href="@{/dashboard}" class="btn btn-secondary">Cancel</a>
-            <button type="submit" class="btn btn-primary" th:text="${isEdit} ? 'Save Changes' : 'Add Product'">Add Product</button>
+
+            <a th:href="@{/dashboard}"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+            <button type="submit"
+                    class="btn btn-primary"
+                    th:text="${isEdit} ? 'Save Changes' : 'Add Product'">
+                Add Product
+            </button>
+
         </div>
+
     </form>
+
 </main>
 
 <script th:src="@{/js/script.js}"></script>
+
 </body>
 </html>

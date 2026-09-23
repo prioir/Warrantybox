@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${product.name} + ' - WarrantyBox'">Product - WarrantyBox</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="page page-narrow">
+    <div class="page-header">
+        <div>
+            <h1 th:text="${product.name}">Product Name</h1>
+            <p class="page-subtitle" th:text="${product.brand} + ' · ' + ${product.category}">Brand · Category</p>
+        </div>
+        <span class="badge badge-lg"
+              th:classappend="${product.warrantyStatus.name() == 'ACTIVE'} ? 'badge-active' : (${product.warrantyStatus.name() == 'EXPIRING_SOON'} ? 'badge-expiring' : 'badge-expired')"
+              th:text="${#strings.replace(product.warrantyStatus.name(),'_',' ')}">ACTIVE</span>
+    </div>
+
+    <div class="card detail-card">
+        <dl class="detail-list">
+            <div class="detail-row">
+                <dt>Price</dt>
+                <dd th:text="${product.price}">65000</dd>
+            </div>
+            <div class="detail-row">
+                <dt>Purchase Date</dt>
+                <dd th:text="${product.purchaseDate}">2026-01-10</dd>
+            </div>
+            <div class="detail-row">
+                <dt>Warranty Period</dt>
+                <dd th:text="${product.warrantyPeriod} + ' Year(s)'">2 Year(s)</dd>
+            </div>
+            <div class="detail-row">
+                <dt>Warranty End Date</dt>
+                <dd th:text="${product.warrantyEndDate}">2028-01-10</dd>
+            </div>
+            <div class="detail-row">
+                <dt>Days Remaining</dt>
+                <dd>
+                    <span th:if="${product.daysRemaining >= 0}" th:text="${product.daysRemaining} + ' Days Remaining'">17 Days Remaining</span>
+                    <span th:unless="${product.daysRemaining >= 0}">Expired</span>
+                </dd>
+            </div>
+            <div class="detail-row">
+                <dt>Serial Number</dt>
+                <dd th:text="${product.serialNumber} ?: '—'">ABC123456</dd>
+            </div>
+            <div class="detail-row">
+                <dt>Store</dt>
+                <dd th:text="${product.storeName} ?: '—'">Star Tech</dd>
+            </div>
+            <div class="detail-row">
+                <dt>Invoice</dt>
+                <dd>
+                    <a th:if="${product.invoiceUploaded}" th:href="@{/products/invoice/{id}(id=${product.id})}"
+                       target="_blank" class="btn btn-secondary btn-sm">View / Download Invoice</a>
+                    <span th:unless="${product.invoiceUploaded}">No invoice uploaded.</span>
+                </dd>
+            </div>
+        </dl>
+
+        <div class="form-actions">
+            <a th:href="@{/dashboard}" class="btn btn-secondary">Back to Dashboard</a>
+            <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary">Edit Product</a>
+            <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" class="inline-delete-form">
+                <button type="submit" class="btn btn-danger js-confirm-delete">Delete</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

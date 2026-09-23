@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - WarrantyBox</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+<body class="auth-body">
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <a href="/" class="brand auth-brand">
+            <span class="brand-mark">WB</span>
+            <span class="brand-name">WarrantyBox</span>
+        </a>
+        <h1>Create your account</h1>
+        <p class="auth-subtitle">Start tracking your warranties in minutes.</p>
+
+        <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+        <form th:action="@{/register}" method="post" class="auth-form">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" th:value="${name}" placeholder="Jane Doe" required autofocus>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" th:value="${email}" placeholder="you@example.com" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="At least 6 characters" required minlength="6">
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repeat your password" required minlength="6">
+
+            <button type="submit" class="btn btn-primary btn-block">Get Started</button>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a th:href="@{/login}">Login</a></p>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="navbar" class="navbar">
+    <div class="navbar-inner">
+        <a href="/dashboard" class="brand">
+            <span class="brand-mark">WB</span>
+            <span class="brand-name">WarrantyBox</span>
+        </a>
+        <div class="nav-links" sec:authorize="isAuthenticated()">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/products/add" class="nav-cta">+ Add Product</a>
+            <form th:action="@{/logout}" method="post" class="logout-form">
+                <button type="submit" class="link-button">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

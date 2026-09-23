@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Products - WarrantyBox</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="page">
+    <div class="page-header">
+        <div>
+            <h1>My Products</h1>
+            <p class="page-subtitle">Every product you've added to your warranty locker.</p>
+        </div>
+        <a th:href="@{/products/add}" class="btn btn-primary">+ Add Product</a>
+    </div>
+
+    <section class="toolbar">
+        <form th:action="@{/products}" method="get" class="filter-form">
+            <input type="text" name="query" th:value="${query}" placeholder="Search by name, brand, category, serial...">
+            <select name="status">
+                <option value="ALL" th:selected="${status == 'ALL'}">All Statuses</option>
+                <option value="ACTIVE" th:selected="${status == 'ACTIVE'}">Active</option>
+                <option value="EXPIRING_SOON" th:selected="${status == 'EXPIRING_SOON'}">Expiring Soon</option>
+                <option value="EXPIRED" th:selected="${status == 'EXPIRED'}">Expired</option>
+            </select>
+            <button type="submit" class="btn btn-secondary">Filter</button>
+        </form>
+    </section>
+
+    <section class="table-section">
+        <div th:if="${#lists.isEmpty(products)}" class="empty-state">
+            <p>No products match your search. <a th:href="@{/products/add}">Add a product</a>.</p>
+        </div>
+
+        <div class="table-wrapper" th:unless="${#lists.isEmpty(products)}">
+            <table class="product-table">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Warranty End</th>
+                    <th>Status</th>
+                    <th>Days Remaining</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+                    <td data-label="Product" th:text="${product.name}">Product</td>
+                    <td data-label="Brand" th:text="${product.brand}">Brand</td>
+                    <td data-label="Category" th:text="${product.category}">Category</td>
+                    <td data-label="Warranty End" th:text="${product.warrantyEndDate}">2028-01-10</td>
+                    <td data-label="Status">
+                        <span class="badge"
+                              th:classappend="${product.warrantyStatus.name() == 'ACTIVE'} ? 'badge-active' : (${product.warrantyStatus.name() == 'EXPIRING_SOON'} ? 'badge-expiring' : 'badge-expired')"
+                              th:text="${#strings.replace(product.warrantyStatus.name(),'_',' ')}">ACTIVE</span>
+                    </td>
+                    <td data-label="Days Remaining">
+                        <span th:if="${product.daysRemaining >= 0}" th:text="${product.daysRemaining} + ' days'">17 days</span>
+                        <span th:unless="${product.daysRemaining >= 0}">Expired</span>
+                    </td>
+                    <td data-label="Actions" class="actions-cell">
+                        <a th:href="@{/products/{id}(id=${product.id})}" class="action-link">View</a>
+                        <a th:href="@{/products/edit/{id}(id=${product.id})}" class="action-link">Edit</a>
+                        <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" class="inline-delete-form">
+                            <button type="submit" class="action-link action-danger js-confirm-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

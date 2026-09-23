@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarrantyBox - Your Digital Warranty Locker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="/" class="brand">
+            <span class="brand-mark">WB</span>
+            <span class="brand-name">WarrantyBox</span>
+        </a>
+        <div class="nav-links">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}" class="nav-cta">Get Started</a>
+        </div>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="hero-inner">
+        <h1>WarrantyBox</h1>
+        <p class="subtitle">Your Digital Warranty Locker</p>
+        <p class="hero-text">
+            Store every product you own, track warranty periods automatically, keep invoices
+            safe, and always know at a glance what's active, expiring soon, or expired.
+        </p>
+        <div class="hero-actions">
+            <a th:href="@{/register}" class="btn btn-primary">Get Started</a>
+            <a th:href="@{/login}" class="btn btn-secondary">Login</a>
+        </div>
+    </div>
+</header>
+
+<section class="features">
+    <div class="features-inner">
+        <div class="feature-card">
+            <div class="feature-icon">📦</div>
+            <h3>Store Product Info</h3>
+            <p>Keep brand, category, price, and serial numbers organized in one place.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⏳</div>
+            <h3>Track Warranty Periods</h3>
+            <p>Warranty end dates are calculated automatically from your purchase date.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🧾</div>
+            <h3>Upload Invoices</h3>
+            <p>Attach a PDF or photo of your invoice so it's never lost or misplaced.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚠️</div>
+            <h3>See What's Expiring</h3>
+            <p>A live dashboard highlights warranties expiring within 30 days.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🗂️</div>
+            <h3>Stay Organized</h3>
+            <p>Search and filter your products by name, brand, category, or status.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Private & Secure</h3>
+            <p>Only you can see your products - accounts are protected end to end.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="site-footer">
+    <p>&copy; 2026 WarrantyBox — Your Digital Warranty Locker</p>
+</footer>
+
+</body>
+</html>
